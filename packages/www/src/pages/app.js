@@ -1,34 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext} from 'react';
+import {Router, Link} from "@reach/router"
+import netlifyIdentity from 'netlify-identity-widget';
 import {Container, Heading, Button, Flex, NavLink } from 'theme-ui';
 import { IdentityContext } from '../../netlifyIdentity.context';
-import netlifyIdentity from 'netlify-identity-widget';
-import {Link} from 'gatsby';
 
+let Dash = () => {
+//const user = netlifyIdentity.currentUser();
+const { user, identity: netlifyIdentity } = useContext(IdentityContext);
 
-export default props => {
-    const { user, netlifyIdentity } = useContext(IdentityContext);
+return (
+// <div> {user && user.user_metadata.full_name}
 
-    /* const [user, setUser] = useState();
+//</div> 
 
-    useEffect(() => {
-        
-        netlifyIdentity.init({});
-    }, [])
-
-    netlifyIdentity.on("login", user => {
-        netlifyIdentity.close();
-        setUser(user);
-    });
-
-    netlifyIdentity.on("logout", ()=>{
-        netlifyIdentity.close();
-        setUser();
-    }); */
-
-    return (
-
-    <Container>
-        <Flex as="nav">
+<Container>
+<Flex as="nav">
             <NavLink as={Link} to="/" p={2}>
                 Home
             </NavLink>
@@ -39,6 +25,14 @@ export default props => {
                 {user.user_metadata.full_name}
             </NavLink>)}
         </Flex>
+    </Container>
+)
+}
+
+let DashLoggedOut = props => {
+    const { identity: netlifyIdentity } = useContext(IdentityContext)
+    return(
+        
         <Flex sx={{ flexDirection: "column", padding: 3 }}>
         <Heading as="h1"> Todo App</Heading>
         <Button sx={{ marginTop: 2, color: 'black' }}
@@ -46,6 +40,13 @@ export default props => {
         Login 
         </Button>
         </Flex>
-    </Container>
-)
-    }
+
+    )
+}
+export default props => {
+    return (
+        <Router>
+            <Dash path="/app"/>
+        </Router>
+    )
+}

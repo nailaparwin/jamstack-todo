@@ -1,6 +1,7 @@
 const React = require('react');
 const { ThemeProvider } = require('theme-ui')
 const {light} = require('@theme-ui/presets')
+const {Provider} = require('./netlifyIdentity.context');
 
 const newTheme = {
     ...light,
@@ -9,7 +10,9 @@ const newTheme = {
 
 module.exports = ({ element }) => 
 (
+    <Provider>
 <ThemeProvider theme={newTheme}>{element}</ThemeProvider>
+</Provider>
 )
 
 
